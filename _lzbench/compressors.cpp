@@ -263,6 +263,27 @@ int64_t lzbench_glza_decompress(char *inbuf, size_t insize, char *outbuf, size_t
 
 
 
+#ifndef BENCH_REMOVE_KITTEN
+
+extern "C" 
+{
+	#include "kitten/Kitten.h"
+}
+
+int64_t lzbench_kitten_compress(char *inbuf, size_t insize, char *outbuf, size_t outsize, size_t level, size_t, char*)
+{
+	return KittenCompress((unsigned char*)inbuf, (unsigned char*)outbuf, insize, level, 4, KITTEN_DEFAULT_MIN_MATCH_LENGTH, KITTEN_NO_HASH_TABLE_CHAIN_LIMIT);
+}
+
+int64_t lzbench_kitten_decompress(char *inbuf, size_t insize, char *outbuf, size_t outsize, size_t, size_t, char*)
+{
+	return KittenDecompress((unsigned char*)inbuf, (unsigned char*)outbuf, insize, outsize);
+}
+
+#endif
+
+
+
 #ifndef BENCH_REMOVE_LIBDEFLATE
 #include "libdeflate/libdeflate.h"
 int64_t lzbench_libdeflate_compress(char *inbuf, size_t insize, char *outbuf, size_t outsize, size_t level, size_t, char*)
